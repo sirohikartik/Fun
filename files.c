@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <dirent.h>
 #include<string.h>
-#include <stdlib.h> 
+#include <stdlib.h>
+
+
 typedef struct {
    int capacity ;
    int size ;
@@ -11,8 +13,9 @@ typedef struct {
 
 
 typedef struct {
-   char * parent;
-   char * children[];
+    char* parent;
+    char * name;
+    list children;   
 } Node;
 
 
@@ -34,17 +37,18 @@ int list_dir(const char* path){
 
 void print_list(list* lst) {
     for(int i =0;i<lst->size;i++){
-        printf("%s ", lst->arr[i]);
+        printf("%s \n", lst->arr[i]);
     }
 }
 
-int search(const char* query) {
+int get_children(char* base, Node* node, char* parent) {
     DIR* self;
-    self = opendir("./");
+    self = opendir(base);
     
     list lst;
     lst.capacity = 100;
     lst.size = 0;
+
     if(self==NULL) {
         puts("ERROR : Some error occurred!");
         return 1;
@@ -60,12 +64,35 @@ int search(const char* query) {
         return 1;
         }
     }
-    print_list(&lst);
+    if(!parent) node->parent = "-";
+    else node->parent = parent;
+    node->name = base;
+    node->children = lst;
     return 0;
 }
 
+Node* create_list(){
+    char* base = "./";
+    Node* head = (Node*)(malloc(sizeof(Node)));
+    
+    get_children(base,head,"\0");
+    return head;
+
+}
+
+
+int is_a_dir(char * dir_name){
+    DIR* dp;
+    dp = opendir(dir_name);
+    if(!dp) return 0;
+    return 1;
+}
 
 int main(int args, char* argv[]) {
-    search("whatever");
+
+    Node* head = create_list();
+
+    print_list(&(head->children));
+
     return 0;
 }

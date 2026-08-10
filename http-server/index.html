@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kartik Sirohi · AI Researcher</title>
+  <meta name="description" content="Kartik Sirohi – AI researcher, LLM systems, inference optimization, RAG, open source." />
+  <style>
+    /* ── reset & base ── */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --fg2: #2c2c2c;
+      --fg3: #666666;
+      --accent: #1a56b0;
+      --line-soft: rgba(0, 0, 0, 0.06);
+      --serif: Georgia, 'Times New Roman', 'Charter', serif;
+    }
+
+    [data-theme="dark"] {
+      --bg: #000000;
+      --fg: #ffffff;
+      --fg2: #dddddd;
+      --fg3: #aaaaaa;
+      --accent: #8ab2f0;
+      --line-soft: rgba(255, 255, 255, 0.06);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--serif);
+      font-size: 18px;
+      line-height: 1.6;
+      padding: 2rem 1.5rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .wrap {
+      max-width: 680px;
+      margin: 1.8rem auto;
+      width: 100%;
+    }
+
+    /* ── typography ── */
+    a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-thickness: 1px;
+      transition: color 0.15s;
+    }
+    a:hover {
+      color: var(--fg);
+    }
+    [data-theme="dark"] a {
+      color: #ffffff;
+      font-weight: 600;
+    }
+    [data-theme="dark"] a:hover {
+      color: #bbbbbb;
+    }
+
+    h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.3rem;
+      line-height: 1.2;
+      color: var(--fg);
+    }
+
+    .bio {
+      font-size: 1rem;
+      color: var(--fg2);
+      margin: 0.25rem 0 0.3rem;
+      max-width: 60ch;
+    }
+
+    .links-row {
+      margin-top: 1.2rem;
+      font-size: 0.95rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 1.4rem;
+    }
+    .links-row a {
+      display: inline-block;
+    }
+
+    section {
+      margin-top: 2.6rem;
+      padding-top: 0.2rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 0 0 0.9rem;
+      letter-spacing: -0.01em;
+      border-bottom: 1px solid var(--line-soft);
+      padding-bottom: 0.25rem;
+      display: inline-block;
+      color: var(--fg);
+    }
+
+    ul.plain {
+      list-style: none;
+      padding-left: 0;
+    }
+    ul.plain li {
+      margin-bottom: 0.75rem;
+      color: var(--fg2);
+      padding-left: 0.2rem;
+    }
+    ul.plain li:last-child {
+      margin-bottom: 0;
+    }
+    ul.plain li::before {
+      content: "·";
+      color: var(--accent);
+      font-weight: 700;
+      margin-right: 0.6rem;
+    }
+
+    .entry {
+      margin-bottom: 1.6rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .entry:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .entry-line {
+      margin: 0 0 0.15rem;
+      font-weight: 600;
+      color: var(--fg);
+    }
+    .entry-line .meta {
+      font-weight: 400;
+      color: var(--fg3);
+      font-size: 0.9rem;
+    }
+    .entry-desc {
+      margin: 0.15rem 0 0.2rem;
+      color: var(--fg2);
+    }
+    .entry-links {
+      margin-top: 0.3rem;
+      font-size: 0.9rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.2rem 1.2rem;
+    }
+    .entry-links a {
+      display: inline-block;
+    }
+
+    .footer-links {
+      margin-top: 3rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--line-soft);
+      font-size: 0.9rem;
+      color: var(--fg3);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 1.4rem;
+    }
+    .footer-links a {
+      color: var(--fg3);
+      transition: color 0.15s;
+    }
+    [data-theme="dark"] .footer-links a {
+      color: #aaaaaa;
+      font-weight: 400;
+    }
+    .footer-links a:hover {
+      color: var(--fg);
+    }
+    [data-theme="dark"] .footer-links a:hover {
+      color: #ffffff;
+    }
+
+    /* ── theme toggle (minimal) ── */
+    .theme-toggle {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: var(--bg);
+      border: 1px solid var(--line-soft);
+      border-radius: 40px;
+      padding: 0.25rem 0.8rem;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--fg3);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      user-select: none;
+      transition: border-color 0.15s, color 0.15s;
+      z-index: 20;
+      backdrop-filter: blur(2px);
+      background: rgba(255, 255, 255, 0.6);
+    }
+    [data-theme="dark"] .theme-toggle {
+      background: rgba(0, 0, 0, 0.6);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: #cccccc;
+    }
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--fg);
+    }
+    [data-theme="dark"] .theme-toggle:hover {
+      border-color: #ffffff;
+      color: #ffffff;
+    }
+    .theme-icon {
+      width: 14px;
+      height: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .theme-icon svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .mobile-nav {
+      display: none;
+      margin-bottom: 1.8rem;
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+      gap: 1.2rem 1.8rem;
+      border-bottom: 1px solid var(--line-soft);
+      padding-bottom: 0.8rem;
+    }
+    .mobile-nav a {
+      color: var(--fg3);
+      text-decoration: none;
+      font-weight: 400;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 0.1rem;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .mobile-nav a:hover {
+      color: var(--fg);
+      border-bottom-color: var(--accent);
+    }
+    [data-theme="dark"] .mobile-nav a {
+      color: #aaaaaa;
+    }
+    [data-theme="dark"] .mobile-nav a:hover {
+      color: #ffffff;
+      border-bottom-color: #ffffff;
+    }
+    .mobile-nav a.active {
+      color: var(--fg);
+      border-bottom-color: var(--accent);
+      font-weight: 600;
+    }
+    [data-theme="dark"] .mobile-nav a.active {
+      color: #ffffff;
+      border-bottom-color: #ffffff;
+    }
+
+    /* ── reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── selection ── */
+    ::selection {
+      background: rgba(26, 86, 176, 0.15);
+    }
+    [data-theme="dark"] ::selection {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    /* ── responsive ── */
+    @media (max-width: 740px) {
+      body {
+        padding: 1.6rem 1rem;
+        justify-content: flex-start;
+        padding-top: 4rem;
+      }
+      .wrap {
+        margin: 0.5rem auto;
+      }
+      .mobile-nav {
+        display: flex !important;
+      }
+      h1 {
+        font-size: 2.2rem;
+      }
+      .theme-toggle {
+        top: 1rem;
+        right: 1rem;
+        padding: 0.2rem 0.6rem;
+        font-size: 9px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        transition: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── theme toggle ── -->
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+  <span class="theme-icon" id="themeIcon">
+    <svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+  </span>
+  <span id="toggleLabel">DARK</span>
+</button>
+
+<div class="wrap">
+
+  <!-- mobile nav (minimal) -->
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="#experience">Experience</a>
+    <a href="#oss">Open Source</a>
+    <a href="#projects">Projects</a>
+    <a href="#blog">Blog</a>
+  </nav>
+
+  <header class="reveal visible" style="transition-delay:0.05s;">
+    <h1>Kartik Sirohi</h1>
+    <p class="bio">IT undergrad at <a href="https://nitj.ac.in/" target="_blank">NIT Jalandhar</a>.</p>
+    <p class="bio">Architectural optimizations for AI — inference engines, RAG, data pipelines. Previously AI Research Intern at <a href="https://www.universityofgalway.ie/" target="_blank">University of Galway</a>.</p>
+    <div class="links-row">
+      <a href="mailto:kartik.orion.dev@gmail.com">Email</a>
+      <a href="https://github.com/sirohikartik" target="_blank">GitHub</a>
+      <a href="https://linkedin.com/in/kartik-sirohi-b81625325" target="_blank">LinkedIn</a>
+      <a href="https://x.com/sirohikartik_" target="_blank">Twitter</a>
+    </div>
+  </header>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="reveal" style="transition-delay:0.1s;">
+    <h2>Experience</h2>
+    <div class="entry">
+      <p class="entry-line"><strong>Research Intern</strong>, <a href="https://qworld.net/" target="_blank">QWorld</a> <span class="meta">— Jul 2026 to Present</span></p>
+      <p class="entry-desc">Dataset curation for multi-family ransomware classification; QTagger+ quantum ML framework for tagging with generative augmentation. Supervised by Dr. Simranjit Singh.</p>
+    </div>
+    <div class="entry">
+      <p class="entry-line"><strong>AI Research Intern (Remote)</strong>, <a href="https://www.universityofgalway.ie/" target="_blank">University of Galway</a> <span class="meta">— Jan 2026 – Mar 2026</span></p>
+      <p class="entry-desc">DICE-RoBERTa for explainable video classification (ComSys 2026). Co-authored paper on deep neural networks in computational psychiatry (IEEE Access). Supervised by Dr. Priyanka Verma.</p>
+    </div>
+  </section>
+
+  <!-- OPEN SOURCE -->
+  <section id="oss" class="reveal" style="transition-delay:0.15s;">
+    <h2>Open Source</h2>
+    <ul class="plain">
+      <li><strong><a href="https://github.com/ggml-org/llama.cpp" target="_blank">ggml-org / llama.cpp</a></strong> — SIMD-vectorized <code>ggml_vec_dot_q4_1_q8_1</code> kernel. <a href="https://github.com/ggml-org/llama.cpp/pull/22209" target="_blank">PR #22209</a></li>
+      <li><strong><a href="https://github.com/pytorch/pytorch" target="_blank">PyTorch</a></strong> — NaN-propagation fix in <code>tensor.clamp()</code>. <a href="https://github.com/pytorch/pytorch/pull/172200" target="_blank">PR #172200</a></li>
+      <li><strong><a href="https://github.com/dspinellis/alexandria3k" target="_blank">alexandria3k</a></strong> — lookup pipeline O(n)→O(1). <a href="https://github.com/dspinellis/alexandria3k/pull/63" target="_blank">PR #63</a></li>
+      <li><strong><a href="https://github.com/scipy/scipy" target="_blank">SciPy</a></strong> — Gauss–Jacobi quadrature docs. <a href="https://github.com/scipy/scipy/pull/23129" target="_blank">PR #23129</a></li>
+      <li><strong><a href="https://github.com/Tracer-Cloud/opensre" target="_blank">Tracer-Cloud / OpenSRE</a></strong> — unit tests &amp; validation: <a href="https://github.com/Tracer-Cloud/opensre/pull/852" target="_blank">#852</a>, <a href="https://github.com/Tracer-Cloud/opensre/pull/917" target="_blank">#917</a>, <a href="https://github.com/Tracer-Cloud/opensre/pull/1059" target="_blank">#1059</a></li>
+    </ul>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="reveal" style="transition-delay:0.2s;">
+    <h2>Projects</h2>
+
+    <div class="entry">
+      <p class="entry-line"><strong>tinyGPT</strong> <span class="meta">— C++, Python, PyTorch</span></p>
+      <p class="entry-desc">30M-parameter GPT trained on TinyStories, with native C++ inference engine: multi-head attention, LayerNorm, KV cache, ARM NEON + SSE, OpenMP. ~121 tok/s on M1, live demo at ~5–7 tok/s.</p>
+      <p class="entry-links">
+        <a href="https://tinygpt.onrender.com" target="_blank">Live demo</a>
+        <a href="https://github.com/sirohikartik/tinygpt" target="_blank">GitHub</a>
+        <a href="https://sirohikartik.github.io/tinygpt_blog" target="_blank">Write-up</a>
+        <a href="https://sirohikartik.github.io/tinygpt/docs" target="_blank">Docs</a>
+      </p>
+    </div>
+
+    <div class="entry">
+      <p class="entry-line"><strong>mini-torch</strong> <span class="meta">— Python, Autograd</span></p>
+      <p class="entry-desc">Deep learning framework from first principles: reverse-mode autograd, SGD+momentum, Adam, MLP training.</p>
+      <p class="entry-links"><a href="https://github.com/sirohikartik/mini-torch" target="_blank">GitHub</a> <a href="https://sirohikartik.github.io/mini-torch/docs.html" target="_blank">Docs</a></p>
+    </div>
+
+    <div class="entry">
+      <p class="entry-line"><strong>Rocky</strong> <span class="meta">— Python, LLM Agents, Sentence-BERT, Whisper</span></p>
+      <p class="entry-desc">Real-time speech-to-Indian Sign Language translation: Whisper → dual-stage vocab resolver → LLM grammar agent for ISL structure.</p>
+      <p class="entry-links"><a href="https://github.com/sirohikartik/rocky" target="_blank">GitHub</a></p>
+    </div>
+
+    <div class="entry">
+      <p class="entry-line"><strong>Athena</strong> <span class="meta">— Python, BM25, Iterative Reasoning, Ollama, RAG</span></p>
+      <p class="entry-desc">Open-source search agent: web search + scraping + BM25 + local LLM reasoning for direct, sourced answers. Built with async concurrency, fallback scraping, and BM25 retrieval.</p>
+      <p class="entry-links"><a href="https://github.com/sirohikartik/athena" target="_blank">GitHub</a></p>
+    </div>
+
+    <div class="entry">
+      <p class="entry-line"><strong>Linear Algebra Engine</strong> <span class="meta">— C++, pybind11</span></p>
+      <p class="entry-desc">C++ LA lib with Python bindings: Gaussian elimination, inversion, blocked matmul, determinant.</p>
+      <p class="entry-links"><a href="https://github.com/sirohikartik/linalg" target="_blank">GitHub</a></p>
+    </div>
+  </section>
+
+  <!-- BLOG -->
+  <section id="blog" class="reveal" style="transition-delay:0.25s;">
+    <h2>Blog</h2>
+    <ul class="plain">
+      <li><a href="https://sirohikartik.github.io/spec_workflow" target="_blank">Formalizing a more human design ownership centered variation of spec driven development</a></li>
+      <li><a href="https://sirohikartik.github.io/tinygpt" target="_blank">Building tinyGPT: A Transformer Inference Engine From Scratch in C++</a> </li>
+      <li><a href="https://sirohikartik.github.io/backprop.html" target="_blank">Learning Representations by Back-propagating Errors</a></li>
+      <li><a href="https://www.linkedin.com/pulse/graph-retrieval-methods-retrieving-knowledge-via-kartik-sirohi-hnscc/" target="_blank">Graph Retrieval Methods: Retrieving Knowledge via Relationships</a></li>
+      <li><a href="https://medium.com/@kartik.orion.dev/the-intuition-behind-neural-networks-one-parameter-at-a-time-c06787914470" target="_blank">The Intuition Behind Neural Networks</a></li>
+    </ul>
+  </section>
+
+  <div class="footer-links">
+    <a href="mailto:kartik.orion.dev@gmail.com">kartik.orion.dev@gmail.com</a>
+    <a href="https://github.com/sirohikartik" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/kartik-sirohi-b81625325" target="_blank">LinkedIn</a>
+    <a href="https://x.com/sirohikartik_" target="_blank">Twitter</a>
+  </div>
+
+</div>
+
+<script>
+  /* ── Theme ── */
+  const root = document.documentElement;
+  const toggleLabel = document.getElementById('toggleLabel');
+  const moonIcon = document.getElementById('moonIcon');
+  const sunIcon = document.getElementById('sunIcon');
+  let dark = false;
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark') { dark = true; applyTheme(); }
+
+  function applyTheme() {
+    root.setAttribute('data-theme', dark ? 'dark' : '');
+    toggleLabel.textContent = dark ? 'LIGHT' : 'DARK';
+    if (dark) { moonIcon.style.display = 'none'; sunIcon.style.display = 'block'; }
+    else { moonIcon.style.display = 'block'; sunIcon.style.display = 'none'; }
+  }
+  function toggleTheme() { dark = !dark; applyTheme(); localStorage.setItem('theme', dark ? 'dark' : 'light'); }
+
+  /* ── reveal on scroll ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
+
+  /* ── active nav (mobile + static) ── */
+  const allNavLinks = document.querySelectorAll('.mobile-nav a');
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      if (window.scrollY >= sectionTop - 120) current = section.getAttribute('id');
+    });
+    allNavLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+</body>
+</html>
+

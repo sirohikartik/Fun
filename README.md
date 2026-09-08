@@ -5,6 +5,14 @@ Some random fun stuff — small C experiments and utilities.
 ## Projects
 
 
+## Cuda
+
+Since I'm learning cuda, so this folder is gonna contain a lot of cuda files. Right now it contains - 
+1. matmul.cu
+2. softmax.cu
+
+
+
 ### Http Server 
 
 A minimal http server that serves on a port and responds to a get route request with my portfolio page html.

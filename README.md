@@ -5,13 +5,16 @@ Some random fun stuff — small C experiments and utilities.
 ## Projects
 
 
-## Cuda
+### Cuda
 
 Since I'm learning cuda, so this folder is gonna contain a lot of cuda files. Right now it contains - 
 1. matmul.cu
 2. softmax.cu
 
 
+### AI 
+Bunch of AI algos implemented from scratch
+1. minimax tictactoe 
 
 ### Http Server 
 

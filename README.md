@@ -32,16 +32,17 @@ clang server.c -o server
 
 ###  FileManager
 
-A simple directory listing tool written in C.
+A CLI file manager with an interactive shell written in C.
 
-It builds a basic tree-like structure of the current directory and prints the names of all entries (files and folders).
+Supports formatted listing, ASCII tree view, file metadata, file operations (cp, mv, rm, touch), search, and safe sandbox testing.
 
 **Files**
 - `files.c` — main source
+- `Makefile` — build configuration
 
 **Build & Run**
 ```bash
 cd FileManager
-gcc files.c -o files
+make
 ./files
 ```
